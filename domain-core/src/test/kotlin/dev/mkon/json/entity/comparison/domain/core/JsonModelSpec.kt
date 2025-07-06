@@ -1,5 +1,6 @@
 package dev.mkon.json.entity.comparison.domain.core
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.JsonObject
@@ -38,9 +39,9 @@ class JsonModelSpec : ShouldSpec({
             )
         )
 
-        val model = JsonModel(modelDefinition, obj)
-
-        model.print() shouldBe "{\"string\":\"test\",\"number\":123}"
+        shouldThrow<IllegalArgumentException> {
+            JsonModel(modelDefinition, obj)
+        }
     }
 
 
