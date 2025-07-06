@@ -8,11 +8,40 @@ import kotlinx.serialization.json.JsonPrimitive
 class JsonModelSpec : ShouldSpec({
 
     should("create json object") {
-        val obj = JsonObject(mapOf("data" to JsonPrimitive("test")))
+        val modelDefinition = ModelDefinition(
+            listOf(
+                ModelProperty("string", ValueType.StringValue),
+                ModelProperty("number", ValueType.NumberValue)
+            )
+        )
 
-        val model = JsonModel(null, obj)
+        val obj = JsonObject(
+            mapOf(
+                "string" to JsonPrimitive("test"),
+                "number" to JsonPrimitive(123)
+            )
+        )
 
-        model.print() shouldBe "{\"data\":\"test\"}"
+        val model = JsonModel(modelDefinition, obj)
+
+        model.print() shouldBe "{\"string\":\"test\",\"number\":123}"
     }
+
+    should("should throw exception when definition doesn't match json") {
+        val modelDefinition =
+            ModelDefinition(listOf(ModelProperty("string", ValueType.StringValue)))
+
+        val obj = JsonObject(
+            mapOf(
+                "string" to JsonPrimitive("test"),
+                "number" to JsonPrimitive(123)
+            )
+        )
+
+        val model = JsonModel(modelDefinition, obj)
+
+        model.print() shouldBe "{\"string\":\"test\",\"number\":123}"
+    }
+
 
 })

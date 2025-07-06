@@ -8,6 +8,6 @@ class JsonModelFactory {
 
     fun decode(value: String): JsonModel {
         val json = jsonSerializer.decodeFromString<JsonObject>(value)
-        return JsonModel(null, json)
+        return JsonModel(ModelDefinition(listOf()), json)
     }
 }
